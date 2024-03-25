@@ -5,14 +5,18 @@ import com.inn.dealership.dao.UserDao;
 import com.inn.dealership.pojo.User;
 import com.inn.dealership.service.UserService;
 import com.inn.dealership.utils.Utils;
+import com.inn.dealership.wrapper.UserWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
+/**
+ * - @Service annotation is used to mark the class as a Spring service that contains business logic and is eligible for dependency injection
+ * - @Autowired is used to automatically inject dependencies when needed
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -39,6 +43,8 @@ public class UserServiceImpl implements UserService {
         return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+
     private boolean validateSignUpMap(Map<String, String> requestMap){
         if(requestMap.containsKey("name") && requestMap.containsKey("contactNumber")
                 && requestMap.containsKey("email") && requestMap.containsKey("password")){
@@ -58,4 +64,58 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
+    @Override
+    public ResponseEntity<List<UserWrapper>> getAllUsers() {
+        try{
+            //Implement a method here to check is the request is made by an admin!!!
+                return new ResponseEntity<>(userDao.getAllUsers(), HttpStatus.OK);
+
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    public ResponseEntity<String> update(Map<String, String> requestMap) {
+        try{
+            // Also here: Implement a method to check if the request is made by an admin!!!
+                Optional<User> optional = userDao.findById(Integer.parseInt(requestMap.get("id")));
+                if(!optional.isEmpty()){
+                    userDao.updateStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
+
+                    return Utils.getResponseEntity("User status updated succesfully!", HttpStatus.OK);
+                }else{
+                    return Utils.getResponseEntity("User id does not exist,", HttpStatus.OK);
+                }
+
+
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    //modifica asta... e ok sau nu?
+    @Override
+    public ResponseEntity<String> deleteUser(Map<String, String> requestMap) {
+        try{
+            Optional<User> optional = userDao.findById(Integer.parseInt(requestMap.get("id")));
+            if(!optional.isEmpty()){
+                // Also here: Implement a method to check if the request is made by an admin!!!
+                userDao.deleteUserById(Integer.parseInt(requestMap.get("id")));
+                return Utils.getResponseEntity("User deleted succesfully!", HttpStatus.OK);
+            }else {
+                return Utils.getResponseEntity("User id does not exist,", HttpStatus.OK);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return Utils.getResponseEntity(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
