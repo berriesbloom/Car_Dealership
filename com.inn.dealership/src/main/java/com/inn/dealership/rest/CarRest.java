@@ -20,4 +20,7 @@ public interface CarRest {
     @DeleteMapping(path = "/delete")
     ResponseEntity<String> deleteCar(@RequestBody(required = true) Map<String, String> requestMap);
 
+    @PutMapping(path = "/update")
+    ResponseEntity<String> update(@RequestBody(required = true) Map<String, String> requestMap);
+
 }

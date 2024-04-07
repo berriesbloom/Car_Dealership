@@ -13,4 +13,6 @@ public interface CarService {
     ResponseEntity<String> addNewCar(Map<String, String> requestMap);
 
     ResponseEntity<String> deleteCar(Map<String, String> requestMap);
+
+    ResponseEntity<String> update(Map<String, String> requestMap);
 }

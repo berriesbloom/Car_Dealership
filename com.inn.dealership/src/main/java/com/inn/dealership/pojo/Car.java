@@ -10,6 +10,8 @@ import java.io.Serializable;
 
 @NamedQuery(name = "Car.getAllCars", query = "select new com.inn.dealership.wrapper.CarWrapper(c.id, c.make, c.model, c.year, c.price, c.capacity, c.power) from Car c")
 @NamedQuery(name = "Car.deleteCarById", query = "delete Car c where c.id=:id")
+@NamedQuery(name = "Car.updateCar", query = "update Car c set c.make=COALESCE(:make,c.make), c.model=COALESCE(:model,c.model), c.year=COALESCE(:year,c.year) , c.price=COALESCE(:price,c.price), c.capacity=COALESCE(:capacity,c.capacity), c.power=COALESCE(:power,c.power) where c.id=:id ")
+
 
 @Data
 @Entity

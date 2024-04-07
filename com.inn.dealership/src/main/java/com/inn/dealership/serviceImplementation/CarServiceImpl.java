@@ -7,6 +7,7 @@ import com.inn.dealership.pojo.Car;
 import com.inn.dealership.service.CarService;
 import com.inn.dealership.utils.Utils;
 import com.inn.dealership.wrapper.CarWrapper;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.Console;
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,49 @@ public class CarServiceImpl implements CarService {
                 return new ResponseEntity<>("Car deleted succesfully!", HttpStatus.OK);
             }else {
                 return new ResponseEntity<>("Car id does not exist", HttpStatus.OK);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> update(Map<String, String> requestMap) {
+        try{
+            Optional<Car> optional = carDao.findById(Integer.parseInt(requestMap.get("id")));
+            if(!optional.isEmpty()){
+
+                String make = requestMap.get("make");
+                String model = requestMap.get("model");
+                Integer price = null;
+                Integer year = null;
+                Integer capacity = null;
+                Integer power = null;
+
+                if(requestMap.get("year") != null && !requestMap.get("year").isEmpty()){
+                    year = Integer.parseInt(requestMap.get("year"));
+                }
+
+                if(requestMap.get("price") != null && !requestMap.get("price").isEmpty()){
+                    price = Integer.parseInt(requestMap.get("price"));
+                }
+
+                if(requestMap.get("capacity") != null && !requestMap.get("capacity").isEmpty()){
+                    capacity = Integer.parseInt(requestMap.get("capacity"));
+                }
+
+                if(requestMap.get("power") != null && !requestMap.get("power").isEmpty()){
+                    power = Integer.parseInt(requestMap.get("power"));
+                }
+
+                carDao.updateCar(Integer.parseInt(requestMap.get("id")), make, model, year, price, capacity, power);
+
+
+                return new ResponseEntity<>("Car updated successfully!", HttpStatus.OK);
+
+            }else {
+                return new ResponseEntity<>("Car id does not exist.", HttpStatus.OK);
             }
         }catch (Exception ex){
             ex.printStackTrace();

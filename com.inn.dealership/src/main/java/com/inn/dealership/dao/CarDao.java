@@ -17,4 +17,14 @@ public interface CarDao extends JpaRepository<Car, Integer> {
     @Transactional
     void deleteCarById(@Param("id") Integer id);
 
+    @Modifying
+    @Transactional
+    void updateCar(@Param("id") Integer id,
+                   @Param("make") String make,
+                   @Param("model") String model,
+                   @Param("year") Integer year,
+                   @Param("price") Integer price,
+                   @Param("capacity") Integer capacity,
+                   @Param("power") Integer power);
+
 }
