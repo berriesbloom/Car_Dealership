@@ -62,4 +62,34 @@ public class CarRestImpl implements CarRest {
         }
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<String> updateStatus(Map<String, String> requestMap) {
+        try{
+            return carService.updateStatus(requestMap);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<List<CarWrapper>> getByCategory(Map<String, String> requestMap) {
+        try{
+            return carService.getByCategory(requestMap);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<CarWrapper> getCarById(Map<String, String> requestMap) {
+        try{
+            return carService.getCarById(requestMap);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new CarWrapper(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

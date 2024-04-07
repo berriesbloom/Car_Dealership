@@ -23,4 +23,13 @@ public interface CarRest {
     @PutMapping(path = "/update")
     ResponseEntity<String> update(@RequestBody(required = true) Map<String, String> requestMap);
 
+    @PutMapping(path = "/updateStatus")
+    ResponseEntity<String> updateStatus(@RequestBody Map<String, String> requestMap);
+
+    @GetMapping(path = "/getByCategory")
+    ResponseEntity<List<CarWrapper>> getByCategory(@RequestBody(required = true) Map<String, String> requestMap);
+
+    @GetMapping(path = "/getById")
+    ResponseEntity<CarWrapper> getCarById(@RequestBody Map<String, String> requestMap);
+
 }

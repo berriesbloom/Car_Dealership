@@ -8,6 +8,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 
+
+@NamedQuery(name="Category.getAllCategories", query = "select c from Category c where c.id in (select p.category.id from Car p where p.status='true')")
+
 @Data
 @Entity
 @DynamicInsert

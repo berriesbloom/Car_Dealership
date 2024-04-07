@@ -21,11 +21,17 @@ public class CarWrapper {
 
     Integer power;
 
+    String status;
+
+    Integer categoryId;
+
+    String categoryName;
+
     public CarWrapper(){
 
     }
 
-    public CarWrapper(Integer id, String make, String model, Integer year, Integer price, Integer capacity, Integer power) {
+    public CarWrapper(Integer id, String make, String model, Integer year, Integer price, Integer capacity, Integer power, String status) {
         this.id = id;
         this.make = make;
         this.model = model;
@@ -33,5 +39,25 @@ public class CarWrapper {
         this.price = price;
         this.capacity = capacity;
         this.power = power;
+        this.status = status;
+    }
+
+    public CarWrapper(Integer id, String make, String model, Integer year, Integer price, Integer capacity, Integer power, String status, Integer categoryId, String categoryName) {
+        this.id = id;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.price = price;
+        this.capacity = capacity;
+        this.power = power;
+        this.status = status;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+    }
+
+    public CarWrapper(Integer id, String make, String model){
+        this.id = id;
+        this.make = make;
+        this.model = model;
     }
 }

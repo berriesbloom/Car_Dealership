@@ -27,4 +27,13 @@ public interface CarDao extends JpaRepository<Car, Integer> {
                    @Param("capacity") Integer capacity,
                    @Param("power") Integer power);
 
+
+    List<CarWrapper> getCarByCategory(@Param("id") Integer id);
+
+    @Modifying
+    @Transactional
+    void updateCarStatus(@Param("status") String status, @Param("id") Integer id);
+
+    CarWrapper getCarById(@Param("id") Integer id);
+
 }

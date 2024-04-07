@@ -4,6 +4,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.inn.dealership.constants.Constants;
 import com.inn.dealership.dao.CarDao;
 import com.inn.dealership.pojo.Car;
+import com.inn.dealership.pojo.Category;
 import com.inn.dealership.service.CarService;
 import com.inn.dealership.utils.Utils;
 import com.inn.dealership.wrapper.CarWrapper;
@@ -42,7 +43,7 @@ public class CarServiceImpl implements CarService {
         //Aici verifica ca request ul sa fie facut de un admin
         try{
             if(validateCarMap(requestMap, false)){
-                carDao.save(getCarFromMap(requestMap));
+                carDao.save(getCarFromMap(requestMap, false));
                 return new ResponseEntity<>("Car added succesfully", HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(Constants.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
@@ -64,8 +65,18 @@ public class CarServiceImpl implements CarService {
         return false;
     }
 
-    private Car getCarFromMap(Map<String, String> requestMap){
+    private Car getCarFromMap(Map<String, String> requestMap, boolean isAdded){
+        Category category =new Category();
+        category.setId(Integer.parseInt(requestMap.get("categoryId")));
+
         Car car = new Car();
+        if(isAdded){
+            car.setId(Integer.parseInt(requestMap.get("id")));
+        }else{
+            car.setStatus("true");
+        }
+
+        car.setCategory(category);
         car.setMake(requestMap.get("make"));
         car.setModel(requestMap.get("model"));
         car.setYear(Integer.parseInt(requestMap.get("year")));
@@ -132,5 +143,40 @@ public class CarServiceImpl implements CarService {
             ex.printStackTrace();
         }
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> updateStatus(Map<String, String> reqeustMap) {
+        try{
+            Optional optional = carDao.findById(Integer.parseInt(reqeustMap.get("id")));
+            if(optional.isPresent()){
+                carDao.updateCarStatus(reqeustMap.get("status"), Integer.parseInt(reqeustMap.get("id")));
+                return Utils.getResponseEntity("Car status updated successfully!", HttpStatus.OK);
+            }
+            return Utils.getResponseEntity("Car id does not exist!", HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<List<CarWrapper>> getByCategory(Map<String, String> requestMap) {
+        try{
+            return new ResponseEntity<>(carDao.getCarByCategory(Integer.parseInt(requestMap.get("id"))), HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<CarWrapper> getCarById(Map<String, String> requestMap) {
+        try{
+            return new ResponseEntity<>(carDao.getCarById(Integer.parseInt(requestMap.get("id"))), HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new CarWrapper(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
