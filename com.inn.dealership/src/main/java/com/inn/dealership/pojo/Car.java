@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NamedQuery(name = "Car.updateCarStatus", query = "update Car c set c.status=:status where c.id=:id")
 @NamedQuery(name = "Car.getCarByCategory", query = "select new com.inn.dealership.wrapper.CarWrapper(c.id, c.make, c.model) from Car c where c.category.id=:id and c.status='true'")
 @NamedQuery(name = "Car.getCarById", query = "select new com.inn.dealership.wrapper.CarWrapper(c.id, c.make, c.model, c.year, c.price, c.capacity, c.power, c.status) from Car c where c.id=:id")
-
+@NamedQuery(name = "Car.findByCarId", query = "select c from Car c where c.id=:id")
 
 @Data
 @Entity

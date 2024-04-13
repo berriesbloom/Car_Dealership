@@ -6,6 +6,7 @@ import com.inn.dealership.dao.CarDao;
 import com.inn.dealership.pojo.Car;
 import com.inn.dealership.pojo.Category;
 import com.inn.dealership.service.CarService;
+import com.inn.dealership.service.SubsriberService;
 import com.inn.dealership.utils.Utils;
 import com.inn.dealership.wrapper.CarWrapper;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -27,6 +28,9 @@ public class CarServiceImpl implements CarService {
 
     @Autowired
     CarDao carDao;
+
+    @Autowired
+    SubsriberService subsriberService;
 
     @Override
     public ResponseEntity<List<CarWrapper>> getAllCars() {
@@ -106,6 +110,7 @@ public class CarServiceImpl implements CarService {
     public ResponseEntity<String> update(Map<String, String> requestMap) {
         try{
             Optional<Car> optional = carDao.findById(Integer.parseInt(requestMap.get("id")));
+            Car car = carDao.findByCarId(Integer.parseInt(requestMap.get("id")));
             if(!optional.isEmpty()){
 
                 String make = requestMap.get("make");
@@ -132,6 +137,7 @@ public class CarServiceImpl implements CarService {
                 }
 
                 carDao.updateCar(Integer.parseInt(requestMap.get("id")), make, model, year, price, capacity, power);
+                subsriberService.notifySubscribers(car);
 
 
                 return new ResponseEntity<>("Car updated successfully!", HttpStatus.OK);

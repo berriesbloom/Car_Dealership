@@ -17,6 +17,8 @@ import java.util.List;
 public interface UserDao extends JpaRepository<User, Integer> {
     User findByEmailId(@Param("email") String email);
 
+    User findByUserId(@Param("id") Integer id);
+
     List<UserWrapper> getAllUsers();
 
     @Transactional
