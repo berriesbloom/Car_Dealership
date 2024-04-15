@@ -9,6 +9,8 @@ public interface SubsriberService {
 
     ResponseEntity<String> subscribeCar(Integer userId, Integer carId);
 
+    ResponseEntity<String> unsubscribeCar(Integer userId, Integer carId);
+
     void notifySubscribers(Car car);
 
     void update(Subscriber subscriber, Car car);

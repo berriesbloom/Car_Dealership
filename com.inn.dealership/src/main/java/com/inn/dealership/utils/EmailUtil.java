@@ -20,19 +20,6 @@ public class EmailUtil {
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
-//        if(list!=null && list.size() > 0){
-//            message.setCc(getCcArray(list));
-//            emailSender.send(message);
-//        }
-//        message.setCc(getCcArray(list));
-    }
-
-    private String[] getCcArray(List<String> ccList){
-        String[] cc = new String[ccList.size()];
-        for(int i = 0; i < ccList.size(); i++){
-            cc[i] = ccList.get(i);
-        }
-        return cc;
     }
 
 }

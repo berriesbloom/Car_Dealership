@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 
+@NamedQuery(name = "Subscriber.findByUserAndCarId", query = "select s from Subscriber s where s.user.id=:userId and s.car.id=:carId")
+
 @Data
 @Entity
 @DynamicInsert
@@ -22,7 +24,6 @@ public class Subscriber implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    // Stores the foreign key of the user in the "user_id" column.
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

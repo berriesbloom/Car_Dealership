@@ -1,6 +1,7 @@
 package com.inn.dealership.serviceImplementation;
 
 
+import com.inn.dealership.constants.Constants;
 import com.inn.dealership.dao.CarDao;
 import com.inn.dealership.dao.SubscriberDao;
 import com.inn.dealership.dao.UserDao;
@@ -35,36 +36,66 @@ public class SubscriberServiceImpl implements SubsriberService {
 
     @Override
     public ResponseEntity<String> subscribeCar(Integer userId, Integer carId) {
-        User user = userDao.findByUserId(userId);
-        Car car = carDao.findByCarId(carId);
+        try{
 
-        Subscriber subscriber = new Subscriber();
-        subscriber.setUser(user);
-        subscriber.setCar(car);
+            Subscriber existingSub = subscriberDao.findByUserAndCarId(userId, carId);
+            if(existingSub != null){
+                return new ResponseEntity<>("Subscriber already exists!", HttpStatus.BAD_REQUEST);
+            }
 
-        subscriberDao.save(subscriber);
+            User user = userDao.findByUserId(userId);
+            Car car = carDao.findByCarId(carId);
 
-        return new ResponseEntity<>("Successfully subscribed!", HttpStatus.OK);
+            Subscriber subscriber = new Subscriber();
+            subscriber.setUser(user);
+            subscriber.setCar(car);
+
+            subscriberDao.save(subscriber);
+
+            return new ResponseEntity<>("Successfully subscribed!", HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+
 
     }
 
     @Override
-    public void update(Subscriber subscriber, Car car) {
-        // Retrieve the email of the subscriber
-        String userEmail = subscriber.getUser().getEmail();
+    public ResponseEntity<String> unsubscribeCar(Integer userId, Integer carId) {
+        try{
+            Subscriber subscriber = subscriberDao.findByUserAndCarId(userId, carId);
+            if (subscriber == null) {
+                return new ResponseEntity<>("Subscriber not found!", HttpStatus.NOT_FOUND);
+            }
+            subscriberDao.delete(subscriber);
+            return new ResponseEntity<>("Successfully unsubscribed!", HttpStatus.OK);
 
-        // Send notification email to the subscriber
-
-        emailUtil.sendSimpleMessage(userEmail, "Car price updated!", "The " + car.getMake() + " " + car.getModel() +" just got a discount! Check it out!");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public void notifySubscribers(Car car){
-        List<Subscriber> subscribers = subscriberDao.findByCar(car);
-
-        for(Subscriber subscriber1: subscribers){
-            update(subscriber1, car);
+    @Override
+    public void update(Subscriber subscriber, Car car) {
+        try{
+            String userEmail = subscriber.getUser().getEmail();
+            emailUtil.sendSimpleMessage(userEmail, "Car price updated!", "The " + car.getMake() + " " + car.getModel() +" just got a discount! Check it out!");
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 
+    public void notifySubscribers(Car car){
+        try{
+            List<Subscriber> subscribers = subscriberDao.findByCar(car);
 
+            for(Subscriber subscriber1: subscribers){
+                update(subscriber1, car);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 }
