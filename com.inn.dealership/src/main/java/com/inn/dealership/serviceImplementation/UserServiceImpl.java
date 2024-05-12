@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     private boolean validateSignUpMap(Map<String, String> requestMap){
         if(requestMap.containsKey("name") && requestMap.containsKey("contactNumber")
                 && requestMap.containsKey("email") && requestMap.containsKey("password")){
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
                     return Utils.getResponseEntity("User status updated succesfully!", HttpStatus.OK);
                 }else{
-                    return Utils.getResponseEntity("User id does not exist,", HttpStatus.OK);
+                    return Utils.getResponseEntity("User id does not exist", HttpStatus.OK);
                 }
 
 

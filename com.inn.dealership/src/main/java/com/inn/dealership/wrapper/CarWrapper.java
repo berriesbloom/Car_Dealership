@@ -60,4 +60,9 @@ public class CarWrapper {
         this.make = make;
         this.model = model;
     }
+
+    public CarWrapper(String make, String model){
+        this.make = make;
+        this.model = model;
+    }
 }

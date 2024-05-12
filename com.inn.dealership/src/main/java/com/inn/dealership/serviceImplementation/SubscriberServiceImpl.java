@@ -37,7 +37,6 @@ public class SubscriberServiceImpl implements SubsriberService {
     @Override
     public ResponseEntity<String> subscribeCar(Integer userId, Integer carId) {
         try{
-
             Subscriber existingSub = subscriberDao.findByUserAndCarId(userId, carId);
             if(existingSub != null){
                 return new ResponseEntity<>("Subscriber already exists!", HttpStatus.BAD_REQUEST);
