@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The {@code CarRestImpl} class implements the {@link CarRest} interface.
+ * It defines the REST API endpoints related to car operations.
+ */
 @RestController
 public class CarRestImpl implements CarRest {
 
@@ -22,6 +26,12 @@ public class CarRestImpl implements CarRest {
     CarService carService;
 
 
+    /**
+     * Retrieves all cars.
+     *
+     * @return a {@link ResponseEntity} containing a list of {@link CarWrapper} representing all cars,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<List<CarWrapper>> getAllCars() {
         try{
@@ -32,6 +42,12 @@ public class CarRestImpl implements CarRest {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Adds a new car.
+     *
+     * @param requestMap a {@link Map} containing car details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> addNewCar(Map<String, String> requestMap) {
         try{
@@ -43,6 +59,12 @@ public class CarRestImpl implements CarRest {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Deletes a car.
+     *
+     * @param requestMap a {@link Map} containing car ID in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> deleteCar(Map<String, String> requestMap) {
         try{
@@ -53,6 +75,12 @@ public class CarRestImpl implements CarRest {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Updates a car.
+     *
+     * @param requestMap a {@link Map} containing car details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> update(Map<String, String> requestMap) {
         try{
@@ -63,6 +91,12 @@ public class CarRestImpl implements CarRest {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Updates the status of a car.
+     *
+     * @param requestMap a {@link Map} containing car ID and status in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> updateStatus(Map<String, String> requestMap) {
         try{
@@ -73,6 +107,13 @@ public class CarRestImpl implements CarRest {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Retrieves cars by category.
+     *
+     * @param requestMap a {@link Map} containing category ID in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a list of {@link CarWrapper} representing cars by category,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<List<CarWrapper>> getByCategory(Map<String, String> requestMap) {
         try{
@@ -83,6 +124,13 @@ public class CarRestImpl implements CarRest {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Retrieves a car by its ID.
+     *
+     * @param requestMap a {@link Map} containing car ID in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a {@link CarWrapper} representing the car with the specified ID,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<CarWrapper> getCarById(Map<String, String> requestMap) {
         try{

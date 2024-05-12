@@ -17,11 +17,22 @@ import java.util.*;
  * - @Service annotation is used to mark the class as a Spring service that contains business logic and is eligible for dependency injection
  * - @Autowired is used to automatically inject dependencies when needed
  */
+/**
+ * The {@code UserServiceImpl} class implements the {@link UserService} interface.
+ * It provides the implementation for user-related service operations.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDao userDao;
+
+    /**
+     * Registers a new user.
+     *
+     * @param requestMap a {@link Map} containing user details
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
         try {
@@ -64,6 +75,12 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * Retrieves all users.
+     *
+     * @return a {@link ResponseEntity} containing a list of {@link UserWrapper} representing all users,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<List<UserWrapper>> getAllUsers() {
         try{
@@ -78,6 +95,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * Updates the status of a user.
+     *
+     * @param requestMap a {@link Map} containing the user ID and status
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     public ResponseEntity<String> update(Map<String, String> requestMap) {
         try{
             // Also here: Implement a method to check if the request is made by an admin!!!
@@ -99,7 +122,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    //modifica asta... e ok sau nu?
+    /**
+     * Deletes a user.
+     *
+     * @param requestMap a {@link Map} containing the user ID
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> deleteUser(Map<String, String> requestMap) {
         try{

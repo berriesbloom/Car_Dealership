@@ -19,6 +19,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The {@code SubscriberServiceImpl} class implements the {@link SubsriberService} interface.
+ * It provides the implementation for subscriber-related service operations.
+ */
 @Service
 public class SubscriberServiceImpl implements SubsriberService {
 
@@ -34,6 +38,13 @@ public class SubscriberServiceImpl implements SubsriberService {
     @Autowired
     EmailUtil emailUtil;
 
+    /**
+     * Subscribes a user to receive updates about a car.
+     *
+     * @param userId the ID of the user
+     * @param carId the ID of the car
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> subscribeCar(Integer userId, Integer carId) {
         try{
@@ -60,6 +71,13 @@ public class SubscriberServiceImpl implements SubsriberService {
 
     }
 
+    /**
+     * Unsubscribes a user from receiving updates about a car.
+     *
+     * @param userId the ID of the user
+     * @param carId the ID of the car
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> unsubscribeCar(Integer userId, Integer carId) {
         try{
@@ -76,6 +94,12 @@ public class SubscriberServiceImpl implements SubsriberService {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Updates a subscriber with information about a car.
+     *
+     * @param subscriber the subscriber to update
+     * @param car the car with updated information
+     */
     @Override
     public void update(Subscriber subscriber, Car car) {
         try{
@@ -86,6 +110,11 @@ public class SubscriberServiceImpl implements SubsriberService {
         }
     }
 
+    /**
+     * Notifies all subscribers of a car about updates.
+     *
+     * @param car the car for which subscribers need to be notified
+     */
     public void notifySubscribers(Car car){
         try{
             List<Subscriber> subscribers = subscriberDao.findByCar(car);

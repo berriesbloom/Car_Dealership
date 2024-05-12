@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The {@code CarServiceImpl} class implements the {@link CarService} interface.
+ * It provides the implementation for car-related service operations.
+ */
 @Service
 public class CarServiceImpl implements CarService {
 
@@ -32,6 +36,12 @@ public class CarServiceImpl implements CarService {
     @Autowired
     SubsriberService subsriberService;
 
+    /**
+     * Retrieves all cars.
+     *
+     * @return a {@link ResponseEntity} containing a list of {@link CarWrapper} representing all cars,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<List<CarWrapper>> getAllCars() {
         try{
@@ -42,6 +52,12 @@ public class CarServiceImpl implements CarService {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Adds a new car.
+     *
+     * @param requestMap a {@link Map} containing car details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> addNewCar(Map<String, String> requestMap) {
         //Aici verifica ca request ul sa fie facut de un admin
@@ -58,6 +74,7 @@ public class CarServiceImpl implements CarService {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // Helper method to validate car details
     private boolean validateCarMap(Map<String, String> requestMap, boolean validateId){
         if(requestMap.containsKey("make") && requestMap.containsKey("model")){
             if(requestMap.containsKey("id") && validateId){
@@ -69,6 +86,7 @@ public class CarServiceImpl implements CarService {
         return false;
     }
 
+    // Helper method to create a Car object from request map
     private Car getCarFromMap(Map<String, String> requestMap, boolean isAdded){
         Category category =new Category();
         category.setId(Integer.parseInt(requestMap.get("categoryId")));
@@ -90,6 +108,12 @@ public class CarServiceImpl implements CarService {
         return car;
     }
 
+    /**
+     * Deletes a car.
+     *
+     * @param requestMap a {@link Map} containing car ID in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> deleteCar(Map<String, String> requestMap) {
         try{
@@ -106,6 +130,12 @@ public class CarServiceImpl implements CarService {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Updates a car.
+     *
+     * @param requestMap a {@link Map} containing car details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> update(Map<String, String> requestMap) {
         try{
@@ -151,6 +181,12 @@ public class CarServiceImpl implements CarService {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Updates the status of a car.
+     *
+     * @param reqeustMap a {@link Map} containing car ID and status in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> updateStatus(Map<String, String> reqeustMap) {
         try{
@@ -166,6 +202,13 @@ public class CarServiceImpl implements CarService {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Retrieves cars by category.
+     *
+     * @param requestMap a {@link Map} containing category ID in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a list of {@link CarWrapper} representing cars in the specified category,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<List<CarWrapper>> getByCategory(Map<String, String> requestMap) {
         try{
@@ -176,6 +219,13 @@ public class CarServiceImpl implements CarService {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Retrieves a car by ID.
+     *
+     * @param requestMap a {@link Map} containing car ID in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a {@link CarWrapper} representing the car with the specified ID,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<CarWrapper> getCarById(Map<String, String> requestMap) {
         try{

@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The {@code CategoryRestImpl} class implements the {@link CategoryRest} interface.
+ * It defines the REST API endpoints related to category operations.
+ */
 @RestController
 public class CategoryRestImpl implements CategoryRest {
 
@@ -23,6 +27,13 @@ public class CategoryRestImpl implements CategoryRest {
     CategoryService categoryService;
 
 
+
+    /**
+     * Adds a new category.
+     *
+     * @param requestMap a {@link Map} containing category details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> addNewCategory(Map<String, String> requestMap) {
         try {
@@ -33,6 +44,12 @@ public class CategoryRestImpl implements CategoryRest {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Updates a category.
+     *
+     * @param requestMap a {@link Map} containing category details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> updateCategoy(Map<String, String> requestMap) {
         try{
@@ -43,6 +60,13 @@ public class CategoryRestImpl implements CategoryRest {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Retrieves all categories.
+     *
+     * @param filterValue a filter value to apply to the category list (optional)
+     * @return a {@link ResponseEntity} containing a list of {@link Category} representing all categories,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<List<Category>> getAllCategories(String filterValue) {
         try{

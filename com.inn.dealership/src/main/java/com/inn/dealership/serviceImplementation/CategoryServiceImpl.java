@@ -22,12 +22,22 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
+/**
+ * The {@code CategoryServiceImpl} class implements the {@link CategoryService} interface.
+ * It provides the implementation for category-related service operations.
+ */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryDao categoryDao;
 
+    /**
+     * Adds a new category.
+     *
+     * @param requestMap a {@link Map} containing category details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> addNewCategory(Map<String, String> resuestMap) {
         try{
@@ -42,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-
+    // Helper method to validate category details
     private boolean validateCategoryMap(Map<String, String> requestMap, boolean validateId){
         if(requestMap.containsKey("name")){
             if(requestMap.containsKey("id") && validateId){
@@ -54,6 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
         return false;
     }
 
+    // Helper method to create a Category object from request map
     private Category getCategoryFromMap(Map<String, String> requestMap, boolean isAdded){
         Category category = new Category();
         if(isAdded){
@@ -63,6 +74,12 @@ public class CategoryServiceImpl implements CategoryService {
         return category;
     }
 
+    /**
+     * Updates a category.
+     *
+     * @param requestMap a {@link Map} containing category details in key-value format from the request body
+     * @return a {@link ResponseEntity} containing a status message with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<String> updateCategory(Map<String, String> requestMap) {
         try{
@@ -82,6 +99,13 @@ public class CategoryServiceImpl implements CategoryService {
         return new ResponseEntity<>(Constants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Retrieves all categories.
+     *
+     * @param filterValue a filter value to refine the categories (optional)
+     * @return a {@link ResponseEntity} containing a list of {@link Category} representing all categories,
+     *         with an appropriate HTTP status code
+     */
     @Override
     public ResponseEntity<List<Category>> getAllCategories(String filterValue) {
         try{
