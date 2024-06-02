@@ -93,3 +93,9 @@ I've built the backend using REST APIs. This means that instead of relying on tr
 
 ## Database Diagram
 ![dealereshipv1 0](https://github.com/berriesbloom/Car_Dealership/assets/78302227/7f0a214e-d6ed-4fc5-b845-bf763f7910e6)
+
+## Use-case Diagram
+![usecase](use_case.png)
+
+## Class Diagram
+![umlclass](class_uml.png)
